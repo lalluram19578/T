@@ -20,7 +20,7 @@ def add_time_to_current_date(hours=0, days=0):
     return datetime.now() + timedelta(hours=hours, days=days)
 
 # Function to generate a unique key
-def generate_key(length=10):
+def generate_key(length=7):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
 # Function to save keys to a file
@@ -34,7 +34,7 @@ async def start(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
 
     message = (
-        f"🔗 *Join Our Channel* to get access to features:\n\n"
+        f"🔗 *𝖏𝖔𝖎𝖓 𝕺𝖚𝖗 𝕮𝖍𝖆𝖓𝖓𝖊𝖑* 𝘵𝘰 𝘨𝘦𝘵 𝘈𝘤𝘤𝘦𝘴𝘴 𝘵𝘰 𝘍𝘦𝘢𝘵𝘶𝘳𝘦:\n\n"
         f"👉 [Click Here to Join](https://t.me/{CHANNEL_USERNAME})\n"
         "After joining the channel, click 'I Have Joined' to proceed."
     )
@@ -54,9 +54,9 @@ async def handle_joined(update: Update, context: CallbackContext):
 
     # Show Generate Key, Redeem Key, and Already Approved buttons
     keyboard = [
-        [InlineKeyboardButton("🔑 Generate Key", callback_data="genkey")],
-        [InlineKeyboardButton("🗝️ Redeem Key", callback_data="redeem_key")],
-        [InlineKeyboardButton("✅ Already Approved", callback_data="already_approved")]
+        [InlineKeyboardButton("🔑 gєηяαтє kєy", callback_data="genkey")],
+        [InlineKeyboardButton("🗝️ яє∂єєм kєy", callback_data="redeem_key")],
+        [InlineKeyboardButton("✅ ɑlreɑdy ɑppeɑred", callback_data="already_approved")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -70,9 +70,9 @@ async def genkey(update: Update, context: CallbackContext):
         user_id = str(query.from_user.id)
 
         if user_id in ADMIN_IDS:
-            await context.bot.send_message(user_id, "/genkey 30 days/n COPY PASTE THIS FOR GENKEY")
+            await context.bot.send_message(user_id, "/genkey <99> <days>")
         else:
-            await context.bot.send_message(user_id, "ONLY OWNER CAN USE💀OWNER @thugh_army")
+            await context.bot.send_message(user_id, "ꮎꮑꮮꮍ ꮎꮃꮑꭼꭱ ꮯꭺꮑ ꮜꮪꭼ💀ꮎꮃꮑꭼꭱ ꮖꮪ 👉 @thugh_army")
     else:  # Handle the command case
         command = context.args
         user_id = str(update.message.from_user.id)
@@ -91,13 +91,13 @@ async def genkey(update: Update, context: CallbackContext):
                     key = generate_key()
                     keys[key] = expiration_date
                     save_keys()
-                    response = f"Key generated: {key}\nExpires on: {expiration_date}"
+                    response = f"ꮶ⃞ꭼ⃞ꮍ⃞🗝⃒️⃒: {key}\nExpires on: {expiration_date}"
                 except ValueError:
                     response = "Please specify a valid number and unit of time (hours/days)."
             else:
                 response = "Usage: /genkey <amount> <hours/days>"
         else:
-            response = "ONLY OWNER CAN USE💀OWNER @thugh_army"
+            response = "ꮎꮑꮮꮍ ꮎꮃꮑꭼꭱ ꮯꭺꮑ ꮜꮪꭼ💀ꮎꮃꮑꭼꭱ ꮖꮪ 👉 @thugh_army"
 
         await update.message.reply_text(response)
 
@@ -125,7 +125,7 @@ async def redeem(update: Update, context: CallbackContext):
             users[user_id] = key
             del keys[key]  # Remove the key from valid keys
             save_keys()
-            await context.bot.send_message(chat_id=chat_id, text="✅ *Key successfully redeemed!* You now have access to the bot's features.", parse_mode='Markdown')
+            await context.bot.send_message(chat_id=chat_id, text="✅ *ꮯ⃑ꮋ⃑ꭺ⃑ꮮ⃑ ꮟ⃑ꮪ⃑ꭰ⃑ꮶ⃑ ꮶ⃑ꭼ⃑ꮍ⃑ 🗝⃑️⃑ ꮮ⃑ꭺ⃑ꮐ⃑ ꮐ⃑ꮍ⃑ꭺ⃑ ꭺ⃑ꮟ⃑ ꭼ⃑ꮑ⃑ꭻ⃑ꮎ⃑ꮍ⃑ ꮶ⃑ꭱ⃑* ꮯ⃑ꮋ⃑ꭺ⃑ꮮ⃑ ꮟ⃑ꮎ⃑ꭲ⃑ ꭺ⃑ꮟ⃑ ꭲ⃑ꭼ⃑ꭱ⃑ꭼ⃑ ꭺ⃑ꮯ⃑ꮯ⃑ꭼ⃑ꮪ⃑ꮪ⃑ ꮇ⃑ꭼ⃑ ꮋ⃑ 𝗞𝗥𝗔𝗙𝗧𝗢𝗡 ꮶ⃑ꮖ⃑ ꮇ⃑ꭺ⃑ꭺ⃑ ꮯ⃑ꮋ⃑ꮎ⃑ꭰ⃑ ꭰ⃑ꮎ⃑.", parse_mode='Markdown')
             
             # After redeeming, show all available buttons
             await show_all_buttons(chat_id, context)  # Pass context here
@@ -137,13 +137,13 @@ async def redeem(update: Update, context: CallbackContext):
 # Show all available buttons after redeeming a key
 async def show_all_buttons(chat_id, context):
     keyboard = [
-        [InlineKeyboardButton("🔑 Generate Key", callback_data="genkey")],
-        [InlineKeyboardButton("🗝️ Redeem Key", callback_data="redeem_key")],
-        [InlineKeyboardButton("✅ Already Approved", callback_data="already_approved")],
-        [InlineKeyboardButton("⚙️ Automatic Mode", callback_data="automatic_mode")],
-        [InlineKeyboardButton("🔧 Manual Mode", callback_data="manual_mode")],
-        [InlineKeyboardButton("✅ Start Attack", callback_data="start_attack")],
-        [InlineKeyboardButton("🛑 Stop Attack", callback_data="stop_attack")]
+        [InlineKeyboardButton("🔑 gєηяαтє kєy", callback_data="genkey")],
+        [InlineKeyboardButton("🗝️ яє∂єєм kєy", callback_data="redeem_key")],
+        [InlineKeyboardButton("✅ ɑlreɑdy ɑppeɑred", callback_data="already_approved")],
+        [InlineKeyboardButton("⚙️ ɑutomɑtic Mod", callback_data="automatic_mode")],
+        [InlineKeyboardButton("🔧 Mɑnuɑlly Mod", callback_data="manual_mode")],
+        [InlineKeyboardButton("✅ 𝑆𝑇𝐴𝑅𝑇 𝐴𝑇𝑇𝐴𝐶𝐾", callback_data="start_attack")],
+        [InlineKeyboardButton("🛑 𝑆𝑇𝑂𝑃 𝐴𝑇𝑇𝐴𝐶𝐾", callback_data="stop_attack")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -289,8 +289,8 @@ async def handle_ip_input(update: Update, context: CallbackContext):
         keyboard = [
             [InlineKeyboardButton("⏱️ 60 seconds", callback_data="duration_60")],
             [InlineKeyboardButton("⏱️ 120 seconds", callback_data="duration_120")],
-            [InlineKeyboardButton("⏱️ 240 seconds", callback_data="duration_240")],
-            [InlineKeyboardButton("⏱️ 500 seconds", callback_data="duration_500")]
+            [InlineKeyboardButton("⏱️ 600 seconds", callback_data="duration_600")],
+            [InlineKeyboardButton("⏱️ 1200 seconds", callback_data="duration_1200")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await context.bot.send_message(chat_id=chat_id, text="⏳ Please select the attack duration:", reply_markup=reply_markup)
@@ -303,8 +303,8 @@ async def handle_time_selection(update: Update, context: CallbackContext):
     duration_map = {
         "duration_60": 60,
         "duration_120": 120,
-        "duration_240": 240,
-        "duration_500": 500
+        "duration_600": 600,
+        "duration_1200": 1200
     }
 
     selected_duration = query.data
